@@ -180,7 +180,7 @@
       <!-- LEFT: IMAGE -->
       <div class="ai-bundle-detail__image">
         {% if bundle.image %}
-          <img src="{{ bundle.image | image_url: width: 800 }}" alt="{{ bundle.title }}" loading="lazy">
+          <img src="{{ bundle.image | image_url: width: 800 }}" alt="{{ bundle.title }}" height="100" width="100" loading="lazy">
         {% endif %}
       </div>
 
@@ -244,7 +244,7 @@
               {% for product in bundle.products.value %}
                 <a href="{{ product.url }}" class="ai-bundle-detail__product-inline-card">
                   {% if product.featured_image %}
-                    <img src="{{ product.featured_image | image_url: width: 300 }}" alt="{{ product.title }}" loading="lazy">
+                    <img src="{{ product.featured_image | image_url: width: 300 }}" alt="{{ product.title }}" height="100" width="100" loading="lazy">
                   {% endif %}
 
                   <div class="ai-bundle-detail__product-title">{{ product.title }}</div>
