@@ -1,0 +1,603 @@
+{% doc %}
+  @prompt
+    Create a Shopify Theme App Extension section that renders a SINGLE metaobject entry of type "bundle_template" as a product-like detail page.
+    
+    Requirements:
+    
+    1. Data Source:
+    - Use Shopify metaobject: bundle_template
+    - Render ONLY one entry based on:
+      - URL handle (bundle.system.handle), OR
+      - Passed ID (via query param)
+    
+    2. Treat Metaobject as Product:
+    - Title → Acts as Product Title
+    - Image → Acts as Product Featured Image
+    - Description (rich text) → Full product description
+    - Products (list of product references) → Bundle items
+    
+    3. UI Layout (Product Page Style):
+    - Top Section:
+      - Left: Image (large, responsive)
+      - Right:
+        - Title (large heading)
+        - Description (rich text rendered properly)
+    
+    - Below Section:
+      - "Included Products" section
+      - Display all referenced products in a grid
+    
+    4. Products Listing:
+    - Loop through bundle.products.value
+    - For each product show:
+      - Product image
+      - Product title
+      - Price
+      - Link to product page
+    
+    5. Shopify Liquid Requirements:
+    - Use:
+      - bundle.system.handle for routing
+      - bundle.description | metafield_tag for rich text
+      - bundle.products.value for product references
+    - Handle empty values safely
+    
+    6. Behavior:
+    - Dynamically detect current bundle via URL
+    - Example:
+      /pages/bundle/<handle>
+    
+    7. Styling:
+    - Clean Shopify product page layout
+    - Responsive (mobile-first)
+    - Grid layout for products (like collection)
+    
+    8. Performance:
+    - Lazy load images
+    - Avoid unnecessary loops
+    
+    9. Bonus (Optional):
+    - Add "Add All to Cart" button (future-ready)
+    - Show total product count
+    
+    Output:
+    - Full Liquid section code
+    - Include HTML, CSS, and minimal JS if needed
+    - Ensure it's compatible with Online Store 2.0, are showing the total price as a this whole metaobjects price so remove individual price of the product sum of them and show as a price of whole mata objects, as we consider that all the product have the same type/name of variants so we need to show that variants on the above of the product list, can we show the first product all variant option below the total price of variants 
+{% enddoc %}
+{% liquid
+  assign ai_gen_id = block.id | replace: '_', '' | downcase
+  assign bundle_handle = request.path | split: '/' | last
+  assign bundle = shop.metaobjects.bundle_template[bundle_handle]
+  
+  assign total_price = 0
+  assign variant_options = ''
+  
+  if bundle and bundle.products.value.size > 0
+    assign first_product = bundle.products.value.first
+    
+    for product in bundle.products.value
+      assign total_price = total_price | plus: product.price
+    endfor
+    
+    if first_product.has_only_default_variant == false
+      assign variant_options = first_product.options_with_values
+    endif
+  endif
+%}
+
+{% style %}
+  .ai-bundle-detail-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    background-color: #fafaf9;
+  }
+
+  .ai-bundle-detail__container-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    margin-bottom: 60px;
+  }
+
+  .ai-bundle-detail__image-wrapper-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+  }
+
+  .ai-bundle-detail__image-{{ ai_gen_id }} {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+    object-fit: cover;
+  }
+
+  .ai-bundle-detail__image-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background-color: #f4f4f4;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ai-bundle-detail__image-placeholder-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    max-width: 400px;
+    max-height: 400px;
+  }
+
+  .ai-bundle-detail__info-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .ai-bundle-detail__title-{{ ai_gen_id }} {
+    font-family: helvetica_n7, sans-serif;
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #000000;
+    margin: 0;
+  }
+
+  .ai-bundle-detail__price-{{ ai_gen_id }} {
+    font-family: helvetica_n7, sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: #000000;
+    margin: 0;
+  }
+
+  .ai-bundle-detail__description-{{ ai_gen_id }} {
+    font-family: helvetica_n4, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #000000;
+  }
+
+  .ai-bundle-detail__description-{{ ai_gen_id }} p {
+    margin: 0 0 16px 0;
+  }
+
+  .ai-bundle-detail__description-{{ ai_gen_id }} p:last-child {
+    margin-bottom: 0;
+  }
+
+  .ai-bundle-detail__variants-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 24px;
+    background-color: #ffffff;
+    border-radius: 4px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .ai-bundle-detail__variant-option-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .ai-bundle-detail__variant-label-{{ ai_gen_id }} {
+    font-family: helvetica_n7, sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #000000;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .ai-bundle-detail__variant-values-{{ ai_gen_id }} {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .ai-bundle-detail__variant-button-{{ ai_gen_id }} {
+    padding: 10px 20px;
+    background-color: #ffffff;
+    border: 1px solid #000000;
+    border-radius: 4px;
+    font-family: helvetica_n4, sans-serif;
+    font-size: 14px;
+    color: #000000;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .ai-bundle-detail__variant-button-{{ ai_gen_id }}:hover {
+    background-color: #000000;
+    color: #ffffff;
+  }
+
+  .ai-bundle-detail__variant-button-{{ ai_gen_id }}.active {
+    background-color: #000000;
+    color: #ffffff;
+  }
+
+  .ai-bundle-detail__products-section-{{ ai_gen_id }} {
+    margin-top: 60px;
+  }
+
+  .ai-bundle-detail__products-header-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+  }
+
+  .ai-bundle-detail__products-title-{{ ai_gen_id }} {
+    font-family: helvetica_n7, sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: #000000;
+    margin: 0;
+  }
+
+  .ai-bundle-detail__products-count-{{ ai_gen_id }} {
+    font-family: helvetica_n4, sans-serif;
+    font-size: 16px;
+    color: #6b6b6b;
+  }
+
+  .ai-bundle-detail__products-grid-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+  }
+
+  .ai-bundle-detail__product-card-{{ ai_gen_id }} {
+    background-color: #ffffff;
+    border-radius: 4px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .ai-bundle-detail__product-card-{{ ai_gen_id }}:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .ai-bundle-detail__product-image-wrapper-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+  }
+
+  .ai-bundle-detail__product-image-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ai-bundle-detail__product-image-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ai-bundle-detail__product-image-placeholder-{{ ai_gen_id }} svg {
+    width: 60%;
+    height: 60%;
+  }
+
+  .ai-bundle-detail__product-info-{{ ai_gen_id }} {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex-grow: 1;
+  }
+
+  .ai-bundle-detail__product-title-{{ ai_gen_id }} {
+    font-family: helvetica_n4, sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: #000000;
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  .ai-bundle-detail__empty-state-{{ ai_gen_id }} {
+    text-align: center;
+    padding: 60px 20px;
+    background-color: #ffffff;
+    border-radius: 4px;
+  }
+
+  .ai-bundle-detail__empty-state-title-{{ ai_gen_id }} {
+    font-family: helvetica_n7, sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: #000000;
+    margin: 0 0 12px 0;
+  }
+
+  .ai-bundle-detail__empty-state-text-{{ ai_gen_id }} {
+    font-family: helvetica_n4, sans-serif;
+    font-size: 16px;
+    color: #6b6b6b;
+    margin: 0;
+  }
+
+  @media screen and (max-width: 989px) {
+    .ai-bundle-detail__container-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+
+    .ai-bundle-detail__title-{{ ai_gen_id }} {
+      font-size: 28px;
+    }
+
+    .ai-bundle-detail__price-{{ ai_gen_id }} {
+      font-size: 28px;
+    }
+
+    .ai-bundle-detail__products-title-{{ ai_gen_id }} {
+      font-size: 24px;
+    }
+
+    .ai-bundle-detail__products-grid-{{ ai_gen_id }} {
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 12px;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-bundle-detail-{{ ai_gen_id }} {
+      padding: 24px 16px;
+    }
+
+    .ai-bundle-detail__container-{{ ai_gen_id }} {
+      gap: 32px;
+      margin-bottom: 40px;
+    }
+
+    .ai-bundle-detail__title-{{ ai_gen_id }} {
+      font-size: 24px;
+    }
+
+    .ai-bundle-detail__price-{{ ai_gen_id }} {
+      font-size: 24px;
+    }
+
+    .ai-bundle-detail__products-section-{{ ai_gen_id }} {
+      margin-top: 40px;
+    }
+
+    .ai-bundle-detail__products-header-{{ ai_gen_id }} {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+
+    .ai-bundle-detail__products-title-{{ ai_gen_id }} {
+      font-size: 20px;
+    }
+
+    .ai-bundle-detail__products-grid-{{ ai_gen_id }} {
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    }
+
+    .ai-bundle-detail__variants-{{ ai_gen_id }} {
+      padding: 16px;
+    }
+
+    .ai-bundle-detail__variant-values-{{ ai_gen_id }} {
+      gap: 6px;
+    }
+
+    .ai-bundle-detail__variant-button-{{ ai_gen_id }} {
+      padding: 8px 16px;
+      font-size: 13px;
+    }
+  }
+{% endstyle %}
+
+<bundle-detail-{{ ai_gen_id }} class="ai-bundle-detail-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  {% if bundle %}
+    <div class="ai-bundle-detail__container-{{ ai_gen_id }}">
+      <div class="ai-bundle-detail__image-wrapper-{{ ai_gen_id }}">
+        {% if bundle.image %}
+          <img
+            src="{{ bundle.image.value | image_url: width: 1200 }}"
+            alt="{{ bundle.title.value | escape }}"
+            class="ai-bundle-detail__image-{{ ai_gen_id }}"
+            loading="lazy"
+            width="{{ bundle.image.value.width }}"
+            height="{{ bundle.image.value.height }}"
+          >
+        {% else %}
+          <div class="ai-bundle-detail__image-placeholder-{{ ai_gen_id }}">
+            {{ 'product-1' | placeholder_svg_tag }}
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="ai-bundle-detail__info-{{ ai_gen_id }}">
+        {% if bundle.title %}
+          <h1 class="ai-bundle-detail__title-{{ ai_gen_id }}">{{ bundle.title.value }}</h1>
+        {% endif %}
+
+        {% if total_price > 0 %}
+          <div class="ai-bundle-detail__price-{{ ai_gen_id }}">{{ total_price | money }}</div>
+        {% endif %}
+
+        {% if bundle.description %}
+          <div class="ai-bundle-detail__description-{{ ai_gen_id }}">
+            {{ bundle.description | metafield_tag }}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    {% if variant_options != blank %}
+      <div class="ai-bundle-detail__variants-{{ ai_gen_id }}">
+        {% for option in variant_options %}
+          <div class="ai-bundle-detail__variant-option-{{ ai_gen_id }}">
+            <label class="ai-bundle-detail__variant-label-{{ ai_gen_id }}">{{ option.name }}</label>
+            <div class="ai-bundle-detail__variant-values-{{ ai_gen_id }}">
+              {% for value in option.values %}
+                <button
+                  type="button"
+                  class="ai-bundle-detail__variant-button-{{ ai_gen_id }} {% if forloop.first %}active{% endif %}"
+                  data-option-name="{{ option.name }}"
+                  data-option-value="{{ value }}"
+                >
+                  {{ value }}
+                </button>
+              {% endfor %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% if bundle.products.value.size > 0 %}
+      <div class="ai-bundle-detail__products-section-{{ ai_gen_id }}">
+        <div class="ai-bundle-detail__products-header-{{ ai_gen_id }}">
+          <h2 class="ai-bundle-detail__products-title-{{ ai_gen_id }}">Included products</h2>
+          <span class="ai-bundle-detail__products-count-{{ ai_gen_id }}">
+            {{ bundle.products.value.size }}
+            {% if bundle.products.value.size == 1 %}
+              product
+            {% else %}
+              products
+            {% endif %}
+          </span>
+        </div>
+
+        <div class="ai-bundle-detail__products-grid-{{ ai_gen_id }}">
+          {% for product in bundle.products.value %}
+            <a
+              href="{{ product.url }}"
+              class="ai-bundle-detail__product-card-{{ ai_gen_id }}"
+            >
+              <div class="ai-bundle-detail__product-image-wrapper-{{ ai_gen_id }}">
+                {% if product.featured_image %}
+                  <img
+                    src="{{ product.featured_image | image_url: width: 600 }}"
+                    alt="{{ product.featured_image.alt | escape }}"
+                    class="ai-bundle-detail__product-image-{{ ai_gen_id }}"
+                    loading="lazy"
+                    width="600"
+                    height="600"
+                  >
+                {% else %}
+                  <div class="ai-bundle-detail__product-image-placeholder-{{ ai_gen_id }}">
+                    {{ 'product-1' | placeholder_svg_tag }}
+                  </div>
+                {% endif %}
+              </div>
+
+              <div class="ai-bundle-detail__product-info-{{ ai_gen_id }}">
+                <h3 class="ai-bundle-detail__product-title-{{ ai_gen_id }}">{{ product.title }}</h3>
+              </div>
+            </a>
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+  {% else %}
+    <div class="ai-bundle-detail__empty-state-{{ ai_gen_id }}">
+      <h2 class="ai-bundle-detail__empty-state-title-{{ ai_gen_id }}">Bundle not found</h2>
+      <p class="ai-bundle-detail__empty-state-text-{{ ai_gen_id }}">
+        The bundle template you're looking for doesn't exist or hasn't been configured yet.
+      </p>
+    </div>
+  {% endif %}
+</bundle-detail-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class BundleDetail{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+        this.selectedOptions = {};
+      }
+
+      connectedCallback() {
+        this.initLazyLoading();
+        this.initVariantButtons();
+      }
+
+      initLazyLoading() {
+        if ('IntersectionObserver' in window) {
+          const images = this.querySelectorAll('img[loading="lazy"]');
+          const imageObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                const img = entry.target;
+                img.src = img.src;
+                observer.unobserve(img);
+              }
+            });
+          });
+
+          images.forEach(img => imageObserver.observe(img));
+        }
+      }
+
+      initVariantButtons() {
+        const variantButtons = this.querySelectorAll('.ai-bundle-detail__variant-button-{{ ai_gen_id }}');
+        
+        variantButtons.forEach(button => {
+          const optionName = button.dataset.optionName;
+          const optionValue = button.dataset.optionValue;
+          
+          if (button.classList.contains('active')) {
+            this.selectedOptions[optionName] = optionValue;
+          }
+
+          button.addEventListener('click', () => {
+            const siblingButtons = this.querySelectorAll(
+              `.ai-bundle-detail__variant-button-{{ ai_gen_id }}[data-option-name="${optionName}"]`
+            );
+            
+            siblingButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            
+            this.selectedOptions[optionName] = optionValue;
+          });
+        });
+      }
+    }
+
+    customElements.define('bundle-detail-{{ ai_gen_id }}', BundleDetail{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Bundle template detail",
+  "tag": null,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "This block displays a single bundle_template metaobject as a product-like detail page. The bundle is automatically detected from the URL handle. The total price is calculated as the sum of all included products. Variant options from the first product are displayed below the total price and above the product list."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Bundle template detail Copy"
+    }
+  ]
+}
+{% endschema %}

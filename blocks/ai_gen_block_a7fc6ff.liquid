@@ -1,0 +1,280 @@
+{% doc %}
+  @prompt
+    Create a Shopify Theme App Extension section that renders data from a metaobject called "bundle_template".
+{% enddoc %}
+
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+.ai-bundle-grid-{{ ai_gen_id }} {
+  padding: 40px 20px;
+  font-family: inherit;
+}
+
+.ai-bundle-grid-container-{{ ai_gen_id }} {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.ai-bundle-grid-items-{{ ai_gen_id }} {
+  display: grid;
+  grid-template-columns: repeat({{ block.settings.columns_desktop }}, 1fr);
+  gap: 24px;
+}
+
+@media (max-width: 768px) {
+  .ai-bundle-grid-items-{{ ai_gen_id }} {
+    grid-template-columns: repeat({{ block.settings.columns_mobile }}, 1fr);
+    gap: 16px;
+  }
+}
+
+.ai-bundle-card-{{ ai_gen_id }} {
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+}
+
+.ai-bundle-card-{{ ai_gen_id }}:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.ai-bundle-card-image-wrapper-{{ ai_gen_id }} {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: #f5f5f5;
+}
+
+.ai-bundle-card-image-{{ ai_gen_id }} {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.ai-bundle-card-{{ ai_gen_id }}:hover .ai-bundle-card-image-{{ ai_gen_id }} {
+  transform: scale(1.04);
+}
+
+.ai-bundle-card-image-placeholder-{{ ai_gen_id }} {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f0f0f0;
+}
+
+.ai-bundle-card-image-placeholder-{{ ai_gen_id }} svg {
+  width: 60%;
+  height: 60%;
+  opacity: 0.3;
+}
+
+.ai-bundle-card-content-{{ ai_gen_id }} {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.ai-bundle-card-title-{{ ai_gen_id }} {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 8px;
+  color: #1a1a1a;
+  line-height: 1.4;
+}
+
+.ai-bundle-card-description-{{ ai_gen_id }} {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.5;
+  margin-bottom: 12px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.ai-bundle-card-description-{{ ai_gen_id }} p {
+  margin: 0;
+}
+
+.ai-bundle-card-products-count-{{ ai_gen_id }} {
+  font-size: 13px;
+  color: #888;
+  margin-bottom: 12px;
+}
+
+.ai-bundle-card-button-{{ ai_gen_id }} {
+  margin-top: auto;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  border: none;
+  border-radius: 6px;
+  background-color: #000;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  width: fit-content;
+}
+
+.ai-bundle-card-button-{{ ai_gen_id }}:hover {
+  background-color: #333;
+  color: #fff;
+}
+
+.ai-bundle-empty-{{ ai_gen_id }} {
+  text-align: center;
+  padding: 60px 20px;
+  color: #888;
+  font-size: 16px;
+}
+{% endstyle %}
+
+<div class="ai-bundle-grid-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-bundle-grid-container-{{ ai_gen_id }}">
+
+    {% liquid
+      if block.settings.bundle_list != blank and block.settings.bundle_list.count > 0
+        assign bundle_metaobjects = block.settings.bundle_list
+      else
+        assign bundle_metaobjects = shop.metaobjects.bundle_template.values
+      endif
+    %}
+
+    {% if bundle_metaobjects.size > 0 %}
+      <div class="ai-bundle-grid-items-{{ ai_gen_id }}">
+        
+        {% for bundle in bundle_metaobjects %}
+          {% liquid
+            assign bundle_title       = bundle.title.value
+            assign bundle_image       = bundle.image.value
+            assign bundle_description = bundle.description 
+            assign bundle_products    = bundle.products.value
+            assign bundle_url         = bundle.system.url
+          %}
+          <a
+            href="{{ bundle_url }}"
+            class="ai-bundle-card-{{ ai_gen_id }}"
+            data-bundle-id="{{ bundle.id }}"
+            data-bundle-handle="{{ bundle_url }}"
+            aria-label="{{ bundle_title | escape }}"
+          >
+
+            <!-- Image -->
+            <div class="ai-bundle-card-image-wrapper-{{ ai_gen_id }}">
+              {% if bundle_image != blank %}
+                <img
+                  src="{{ bundle_image | image_url: width: 600 }}"
+                  alt="{{ bundle_title | escape }}"
+                  loading="lazy"
+                  width="600"
+                  height="600"
+                  class="ai-bundle-card-image-{{ ai_gen_id }}"
+                >
+              {% else %}
+                <div class="ai-bundle-card-image-placeholder-{{ ai_gen_id }}">
+                  {{ 'product-1' | placeholder_svg_tag }}
+                </div>
+              {% endif %}
+            </div>
+
+            <!-- Content -->
+            <div class="ai-bundle-card-content-{{ ai_gen_id }}">
+
+              {% if bundle_title != blank %}
+                <h3 class="ai-bundle-card-title-{{ ai_gen_id }}">
+                  {{ bundle_title | escape }}
+                </h3>
+              {% endif %}
+
+              {% if block.settings.show_description and bundle_description != blank %}
+                <div class="ai-bundle-card-description-{{ ai_gen_id }}">
+                  {{ bundle_description | metafield_tag }}
+                </div>
+              {% endif %}
+
+              {% if bundle_products != blank %}
+                <p class="ai-bundle-card-products-count-{{ ai_gen_id }}">
+                  {{ bundle_products.size }}
+                  {% if bundle_products.size == 1 %}product{% else %}products{% endif %}
+                </p>
+              {% endif %}
+
+              <span class="ai-bundle-card-button-{{ ai_gen_id }}">
+                View Bundle
+              </span>
+
+            </div>
+          </a>
+
+        {% endfor %}
+
+      </div>
+
+    {% else %}
+      <div class="ai-bundle-empty-{{ ai_gen_id }}">
+        <p>No bundle templates found.</p>
+      </div>
+    {% endif %}
+
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Bundle template grid",
+  "settings": [
+    {
+      "type": "metaobject_list",
+      "id": "bundle_list",
+      "label": "Select Bundles",
+      "metaobject_type": "bundle_template"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Columns (desktop)",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "columns_mobile",
+      "label": "Columns (mobile)",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "default": 1
+    },
+    {
+      "type": "checkbox",
+      "id": "show_description",
+      "label": "Show description",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Bundle template grid"
+    }
+  ]
+}
+{% endschema %}

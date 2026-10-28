@@ -1,0 +1,502 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "6a3bb789-ce10-45f5-ae67-e2063ef8c76b": {
+      "type": "image-banner",
+      "blocks": {
+        "template--18309637636369__6a3bb789-ce10-45f5-ae67-e2063ef8c76b-168016437761699a6e-0": {
+          "type": "heading",
+          "settings": {
+            "heading": "Generated test data",
+            "heading_size": "h1"
+          }
+        },
+        "template--18309637636369__6a3bb789-ce10-45f5-ae67-e2063ef8c76b-168016437761699a6e-1": {
+          "type": "text",
+          "settings": {
+            "text": "A theme and populated test store by Shopify to help you test commerce primitives.",
+            "text_style": "body"
+          }
+        },
+        "template--18309637636369__6a3bb789-ce10-45f5-ae67-e2063ef8c76b-168016437761699a6e-2": {
+          "type": "buttons",
+          "settings": {
+            "button_label_1": "Shop products",
+            "button_link_1": "shopify://collections/all",
+            "button_style_secondary_1": false,
+            "button_label_2": "",
+            "button_link_2": "",
+            "button_style_secondary_2": false
+          }
+        }
+      },
+      "block_order": [
+        "template--18309637636369__6a3bb789-ce10-45f5-ae67-e2063ef8c76b-168016437761699a6e-0",
+        "template--18309637636369__6a3bb789-ce10-45f5-ae67-e2063ef8c76b-168016437761699a6e-1",
+        "template--18309637636369__6a3bb789-ce10-45f5-ae67-e2063ef8c76b-168016437761699a6e-2"
+      ],
+      "custom_css": [],
+      "settings": {
+        "image": "shopify://shop_images/theme_cover_image.jpg",
+        "image_overlay_opacity": 0,
+        "image_height": "medium",
+        "desktop_content_position": "middle-left",
+        "show_text_box": true,
+        "desktop_content_alignment": "left",
+        "color_scheme": "background-1",
+        "image_behavior": "none",
+        "mobile_content_alignment": "center",
+        "stack_images_on_mobile": true,
+        "show_text_below": true
+      }
+    },
+    "featured_collection": {
+      "type": "featured-collection",
+      "settings": {
+        "title": "<strong>Featured products</strong>",
+        "heading_size": "h1",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "collection": "automated-collection",
+        "products_to_show": 10,
+        "columns_desktop": 3,
+        "full_width": false,
+        "show_view_all": false,
+        "view_all_style": "solid",
+        "enable_desktop_slider": true,
+        "color_scheme": "background-1",
+        "image_ratio": "portrait",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "enable_quick_add": false,
+        "columns_mobile": "2",
+        "swipe_on_mobile": false,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "f1552b18-6017-4231-810d-74e61da22c37": {
+      "type": "image-with-text",
+      "blocks": {
+        "template--18309637636369__f1552b18-6017-4231-810d-74e61da22c37-1680164422d7fb2efc-0": {
+          "type": "heading",
+          "settings": {
+            "heading": "Stay hydrated",
+            "heading_size": "h1"
+          }
+        },
+        "template--18309637636369__f1552b18-6017-4231-810d-74e61da22c37-1680164422d7fb2efc-1": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Try our wax subscription so you can fly high, but never dry.</p>",
+            "text_style": "body"
+          }
+        },
+        "template--18309637636369__f1552b18-6017-4231-810d-74e61da22c37-1680164422d7fb2efc-2": {
+          "type": "button",
+          "settings": {
+            "button_label": "Get waxy now",
+            "button_link": "shopify://products/selling-plans-ski-wax"
+          }
+        }
+      },
+      "block_order": [
+        "template--18309637636369__f1552b18-6017-4231-810d-74e61da22c37-1680164422d7fb2efc-0",
+        "template--18309637636369__f1552b18-6017-4231-810d-74e61da22c37-1680164422d7fb2efc-1",
+        "template--18309637636369__f1552b18-6017-4231-810d-74e61da22c37-1680164422d7fb2efc-2"
+      ],
+      "settings": {
+        "image": "shopify://shop_images/theme_cover_image.jpg",
+        "height": "adapt",
+        "desktop_image_width": "medium",
+        "layout": "image_first",
+        "desktop_content_position": "middle",
+        "desktop_content_alignment": "left",
+        "content_layout": "no-overlap",
+        "color_scheme": "accent-1",
+        "image_behavior": "none",
+        "mobile_content_alignment": "left",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "38cdf60f-e431-43b5-aac3-7e6215447d67": {
+      "type": "collection-list",
+      "blocks": {
+        "template--18309637636369__38cdf60f-e431-43b5-aac3-7e6215447d67-1680164898782d94ce-0": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "hydrogen"
+          }
+        },
+        "template--18309637636369__38cdf60f-e431-43b5-aac3-7e6215447d67-1680164898782d94ce-1": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "automated-collection"
+          }
+        }
+      },
+      "block_order": [
+        "template--18309637636369__38cdf60f-e431-43b5-aac3-7e6215447d67-1680164898782d94ce-0",
+        "template--18309637636369__38cdf60f-e431-43b5-aac3-7e6215447d67-1680164898782d94ce-1"
+      ],
+      "settings": {
+        "title": "<strong>Collections</strong>",
+        "heading_size": "h1",
+        "image_ratio": "portrait",
+        "columns_desktop": 2,
+        "color_scheme": "background-1",
+        "show_view_all": false,
+        "columns_mobile": "1",
+        "swipe_on_mobile": false,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "1776060573982cc983": {
+      "type": "apps",
+      "settings": {
+        "include_margins": true
+      }
+    },
+    "17766704512e6a490f": {
+      "type": "_blocks",
+      "settings": {}
+    },
+    "featured_product_xgcPn7": {
+      "type": "featured-product",
+      "blocks": {
+        "text_HftXbw": {
+          "type": "text",
+          "settings": {
+            "text": "{{ section.settings.product.vendor }}",
+            "text_style": "uppercase"
+          }
+        },
+        "title_G9h4q3": {
+          "type": "title",
+          "settings": {
+            "heading_size": "h1"
+          }
+        },
+        "price_jCBhfr": {
+          "type": "price",
+          "settings": {}
+        },
+        "variant_picker_mDrCwM": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "button"
+          }
+        },
+        "quantity_selector_chzdmK": {
+          "type": "quantity_selector",
+          "settings": {}
+        },
+        "buy_buttons_GbGRz6": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true
+          }
+        },
+        "share_HfwmTy": {
+          "type": "share",
+          "settings": {
+            "share_label": "Share"
+          }
+        }
+      },
+      "block_order": [
+        "text_HftXbw",
+        "title_G9h4q3",
+        "price_jCBhfr",
+        "variant_picker_mDrCwM",
+        "quantity_selector_chzdmK",
+        "buy_buttons_GbGRz6",
+        "share_HfwmTy"
+      ],
+      "name": "t:sections.featured-product.presets.name",
+      "settings": {
+        "product": "2023-florida-building-code-accessibility-8th-edition",
+        "color_scheme": "background-1",
+        "secondary_background": false,
+        "media_size": "medium",
+        "constrain_to_viewport": true,
+        "media_fit": "contain",
+        "media_position": "left",
+        "image_zoom": "lightbox",
+        "hide_variants": false,
+        "enable_video_looping": false,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "1785221087cf8ba5f3": {
+      "type": "apps",
+      "blocks": {
+        "mag_product_reviews_verified_reviews_badge_hy46Ba": {
+          "type": "shopify://apps/mag-product-reviews/blocks/verifiedReviewsBadge/0cf5caa0-e138-46b8-999b-520d16633e4c",
+          "settings": {
+            "Verified_Review_label": "",
+            "by_label": ""
+          }
+        },
+        "mag_product_reviews_all_reviews_counter_V7CWze": {
+          "type": "shopify://apps/mag-product-reviews/blocks/allReviewsCounter/0cf5caa0-e138-46b8-999b-520d16633e4c",
+          "settings": {
+            "out_of_label": "",
+            "stars_based_on_label": "",
+            "reviews_label": ""
+          }
+        },
+        "mag_product_reviews_all_reviews_ppmC8R": {
+          "type": "shopify://apps/mag-product-reviews/blocks/allReviews/0cf5caa0-e138-46b8-999b-520d16633e4c",
+          "settings": {
+            "Show_by_label": ""
+          }
+        }
+      },
+      "block_order": [
+        "mag_product_reviews_verified_reviews_badge_hy46Ba",
+        "mag_product_reviews_all_reviews_counter_V7CWze",
+        "mag_product_reviews_all_reviews_ppmC8R"
+      ],
+      "settings": {
+        "include_margins": true
+      }
+    },
+    "17852209793998c63d": {
+      "type": "apps",
+      "blocks": {
+        "loox_reviews_loox_video_slider_zi3Cme": {
+          "type": "shopify://apps/loox-reviews/blocks/loox-video-slider/5c3b337f-fd14-4df5-b1d6-80ec13e6e28e",
+          "settings": {
+            "show-by-tag": true,
+            "layout": "spotlight",
+            "shadow": "",
+            "show-rating": true,
+            "show-reviewer-name": true,
+            "hide-arrows-mobile": true,
+            "auto-play": true,
+            "show-border": false,
+            "border-width": 1,
+            "border-radius": 16,
+            "text-color": "",
+            "rating-icon-color": "",
+            "border-color": "",
+            "play-button-color": "",
+            "shadow-color": "",
+            "product-id": ""
+          }
+        },
+        "loox_reviews_loox_trust_badge_TqcyGD": {
+          "type": "shopify://apps/loox-reviews/blocks/loox-trust-badge/5c3b337f-fd14-4df5-b1d6-80ec13e6e28e",
+          "settings": {
+            "layout": "horizontal",
+            "alignment": "left",
+            "scheme-type": "default",
+            "review-title": "reviews",
+            "rating-icon": true,
+            "average-rating": true,
+            "loox-branding": true,
+            "review-count": true,
+            "open-reviews": true,
+            "show-border": true,
+            "border-radius": 8,
+            "font-size": 20,
+            "background-color": "",
+            "secondary-background-color": "",
+            "text-color": "",
+            "rating-icon-color": "",
+            "border-color": ""
+          }
+        },
+        "loox_reviews_loox_testimonial_carousel_section_Y9Gip6": {
+          "type": "shopify://apps/loox-reviews/blocks/loox-testimonial-carousel-section/5c3b337f-fd14-4df5-b1d6-80ec13e6e28e",
+          "settings": {
+            "maxWidth": 1100,
+            "desktopFontSize": 32,
+            "mobileFontSize": 20,
+            "maxNumberOfCharacters": 100,
+            "quoteMarkIcon": "style-1",
+            "reviewerNameColor": "#000000",
+            "textColor": "#000000",
+            "starsColor": "",
+            "quotesIconColor": "#EAEAEA",
+            "arrows_iconColor": "#000000",
+            "arrows_hideOnMobile": true,
+            "pagination_active": true,
+            "pagination_selectedDotColor": "#000000",
+            "pagination_dotColor": "#000000",
+            "autoplay_active": false,
+            "autoplay_duration": 2,
+            "productIds": ""
+          }
+        },
+        "loox_reviews_loox_snippets_widget_qKLL9t": {
+          "type": "shopify://apps/loox-reviews/blocks/loox-snippets-widget/5c3b337f-fd14-4df5-b1d6-80ec13e6e28e",
+          "settings": {
+            "reviews-type": "product-reviews",
+            "reviews-limit": 10,
+            "alignment": "left",
+            "max-width": "",
+            "color-scheme": "default",
+            "shadow": "",
+            "show-rating": true,
+            "show-image": true,
+            "hide-arrows-mobile": false,
+            "font-size": 14,
+            "show-border": false,
+            "border-radius": 16,
+            "background-color": "",
+            "text-color": "",
+            "name-color": "",
+            "rating-icon-color": "",
+            "border-color": "",
+            "shadow-color": "",
+            "product_selection": ""
+          }
+        },
+        "loox_reviews_loox_agg_section_iBkFFK": {
+          "type": "shopify://apps/loox-reviews/blocks/loox-agg-section/5c3b337f-fd14-4df5-b1d6-80ec13e6e28e",
+          "settings": {
+            "reviews_to_display": "",
+            "default_tab": "automatic",
+            "only_photos": false,
+            "hide_thumbnails": false,
+            "product_handle": "",
+            "aggregated": true,
+            "data-limit": 20,
+            "maxwidth": 1080,
+            "is_sample": true
+          }
+        },
+        "loox_reviews_loox_referrals_section_g98QpL": {
+          "type": "shopify://apps/loox-reviews/blocks/loox-referrals-section/5c3b337f-fd14-4df5-b1d6-80ec13e6e28e",
+          "settings": {
+            "max_width": 1100,
+            "layout": "with-photo",
+            "primary_color": "",
+            "text_color": "#000000",
+            "text_field_border_color": "#C9CDD4",
+            "background": ""
+          }
+        },
+        "loox_reviews_loox_gallery_carousel_section_EwDxY7": {
+          "type": "shopify://apps/loox-reviews/blocks/loox-gallery-carousel-section/5c3b337f-fd14-4df5-b1d6-80ec13e6e28e",
+          "settings": {
+            "maxWidth": 1100,
+            "borderRadius": 60,
+            "itemsPerView": 5,
+            "mobileItemsPerView": 1,
+            "imageRatio": "1",
+            "reviewerNameColor": "#ffffff",
+            "starsColor": "#ffffff",
+            "arrows_backgroundColor": "#FFFFFF",
+            "arrows_iconColor": "#9A9A9A",
+            "shadow": "none",
+            "border_active": false,
+            "border_width": 2,
+            "border_color": "#000000",
+            "productIds": ""
+          }
+        },
+        "loox_reviews_loox_dynamic_carousel_CpiLXp": {
+          "type": "shopify://apps/loox-reviews/blocks/loox-dynamic-carousel/5c3b337f-fd14-4df5-b1d6-80ec13e6e28e",
+          "settings": {
+            "corner-radius": 40,
+            "items-per-view": 2,
+            "items-per-view-mobile": 3,
+            "max-characters": 180,
+            "autoplay": false,
+            "autoplay-delay": 5,
+            "main-color": "#AE8868",
+            "stars-color": "#FF8D00",
+            "show-review-text": true,
+            "text-color": "",
+            "reviewer-name-color": "",
+            "verified-badge-color": "",
+            "quote-marks-icon": "style-1",
+            "quote-marks-icon-color": "",
+            "review-background-color": "",
+            "product-ids": ""
+          }
+        },
+        "loox_reviews_loox_carousel_section_dNyYUJ": {
+          "type": "shopify://apps/loox-reviews/blocks/loox-carousel-section/5c3b337f-fd14-4df5-b1d6-80ec13e6e28e",
+          "settings": {
+            "max_width": 1920,
+            "text_color": "#000000",
+            "background_color": "#ffffff",
+            "arrows_color": "#000000",
+            "dots_color": "#000000",
+            "button_color": "#000000",
+            "show_more": true,
+            "only_photos": false,
+            "use_widget_font": true,
+            "product_handle": ""
+          }
+        },
+        "loox_reviews_loox_card_carousel_section_NRGbza": {
+          "type": "shopify://apps/loox-reviews/blocks/loox-card-carousel-section/5c3b337f-fd14-4df5-b1d6-80ec13e6e28e",
+          "settings": {
+            "maxWidth": 1100,
+            "borderRadius": 8,
+            "itemsPerView": 4,
+            "mobileItemsPerView": 1,
+            "maxNumberOfCharacters": 100,
+            "imageRatio": "0.72",
+            "reviewerNameColor": "#000000",
+            "textColor": "#000000",
+            "itemBackgroundColor": "#ffffff",
+            "starsColor": "",
+            "starsBackgroundColor": "#ffffff",
+            "arrows_backgroundColor": "#FFFFFF",
+            "arrows_iconColor": "#9A9A9A",
+            "shadow": "offset-dark",
+            "border_active": false,
+            "border_width": 2,
+            "border_color": "#000000",
+            "productIds": ""
+          }
+        }
+      },
+      "block_order": [
+        "loox_reviews_loox_video_slider_zi3Cme",
+        "loox_reviews_loox_trust_badge_TqcyGD",
+        "loox_reviews_loox_testimonial_carousel_section_Y9Gip6",
+        "loox_reviews_loox_snippets_widget_qKLL9t",
+        "loox_reviews_loox_agg_section_iBkFFK",
+        "loox_reviews_loox_referrals_section_g98QpL",
+        "loox_reviews_loox_gallery_carousel_section_EwDxY7",
+        "loox_reviews_loox_dynamic_carousel_CpiLXp",
+        "loox_reviews_loox_carousel_section_dNyYUJ",
+        "loox_reviews_loox_card_carousel_section_NRGbza"
+      ],
+      "settings": {
+        "include_margins": true
+      }
+    }
+  },
+  "order": [
+    "6a3bb789-ce10-45f5-ae67-e2063ef8c76b",
+    "featured_collection",
+    "f1552b18-6017-4231-810d-74e61da22c37",
+    "38cdf60f-e431-43b5-aac3-7e6215447d67",
+    "1776060573982cc983",
+    "17766704512e6a490f",
+    "featured_product_xgcPn7",
+    "1785221087cf8ba5f3",
+    "17852209793998c63d"
+  ]
+}
