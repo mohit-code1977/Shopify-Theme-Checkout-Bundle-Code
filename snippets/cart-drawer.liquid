@@ -112,41 +112,48 @@
                     {%- for item in cart.items -%}
                       <tr id="CartDrawer-Item-{{ item.index | plus: 1 }}" class="cart-item" role="row">
                         <td class="cart-item__media" role="cell" headers="CartDrawer-ColumnProductImage">
-                          
-                            {% comment %} Leave empty space due to a:empty CSS display: none rule {% endcomment %}
-                            <a href="{{ item.url }}" class="cart-item__link" tabindex="-1" aria-hidden="true"> </a>
-                            {% comment %} <img
+                          {% comment %} Leave empty space due to a:empty CSS display: none rule {% endcomment %}
+                          <a href="{{ item.url }}" class="cart-item__link" tabindex="-1" aria-hidden="true"> </a>
+                          {% comment %}
+                            <img
                               class="cart-item__image"
                               src="{{ item.image | image_url: width: 300 }}"
                               alt="{{ item.image.alt | escape }}"
                               loading="lazy"
                               width="150"
                               height="{{ 150 | divided_by: item.image.aspect_ratio | ceil }}"
-                            > {% endcomment %}
-                              {% if item.properties['Bundle Image'] %}
-                                {% assign bundle_image_src = item.properties['Bundle Image'] %}
-                                {% if bundle_image_src contains '//' and bundle_image_src contains 'https' == false %}
-                                  {% assign bundle_image_src = 'https:' | append: bundle_image_src %}
-                                {% endif %}
-                                <img
-                                  class="cart-item__image"
-                                  src="{{ bundle_image_src }}"
-                                  alt="{{ item.properties['Bundle Name'] | default: item.title | escape }}"
-                                  loading="lazy"
-                                  width="150"
-                                  height="150"
-                                >
-                              {% else %}
-                                <img
-                                  class="cart-item__image"
-                                  src="{{ item.image | image_url: width: 300 }}"
-                                  alt="{{ item.image.alt | escape }}"
-                                  loading="lazy"
-                                  width="150"
-                                  height="{{ 150 | divided_by: item.image.aspect_ratio | ceil }}"
-                                >
+                            >
+                          {% endcomment %}
+                          {% if item.properties['Bundle Image'] %}
+                            {% assign bundle_image_src = item.properties['Bundle Image'] %}
+                            {% comment %}
+                              {% if bundle_image_src contains '//' and bundle_image_src contains 'https' == false %}
+                                {% assign bundle_image_src = 'https:' | append: bundle_image_src %}
                               {% endif %}
-                          
+                            {% endcomment %}
+                            {% assign bundle_image_src = item.properties['Bundle Image'] %}
+                            {% assign bundle_image_prefix = bundle_image_src | slice: 0, 2 %}
+                            {% if bundle_image_prefix == '//' %}
+                              {% assign bundle_image_src = 'https:' | append: bundle_image_src %}
+                            {% endif %}
+                            <img
+                              class="cart-item__image"
+                              src="{{ bundle_image_src }}"
+                              alt="{{ item.properties['Bundle Name'] | default: item.title | escape }}"
+                              loading="lazy"
+                              width="150"
+                              height="150"
+                            >
+                          {% else %}
+                            <img
+                              class="cart-item__image"
+                              src="{{ item.image | image_url: width: 300 }}"
+                              alt="{{ item.image.alt | escape }}"
+                              loading="lazy"
+                              width="150"
+                              height="{{ 150 | divided_by: item.image.aspect_ratio | ceil }}"
+                            >
+                          {% endif %}
                         </td>
 
                         <td class="cart-item__details" role="cell" headers="CartDrawer-ColumnProduct">
@@ -154,9 +161,11 @@
                             <p class="caption-with-letter-spacing light">{{ item.product.vendor }}</p>
                           {%- endif -%}
 
-                          {% comment %} <a href="{{ item.url }}" class="cart-item__name h4 break">
-                            {{- item.product.title | escape -}}
-                          </a> {% endcomment %}
+                          {% comment %}
+                            <a href="{{ item.url }}" class="cart-item__name h4 break">
+                              {{- item.product.title | escape -}}
+                            </a>
+                          {% endcomment %}
                           <a href="{{ item.url }}" class="cart-item__name h4 break">
                             {% if item.properties['Bundle Name'] %}
                               {{ item.properties['Bundle Name'] }}
@@ -203,7 +212,7 @@
                                 {%- endfor -%}
                               {%- endif -%}
 
-                              {% if item.properties['_bundle'] %}
+                              {% if item.properties._bundle %}
                                 <div class="bundle-items">
                                   {% for p in item.properties %}
                                     {% if p.first contains 'Item' %}
